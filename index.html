@@ -1,0 +1,294 @@
+<!-- index.html -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>University of Development Alternative Result Verification</title>
+  <meta name="description" content="Verify student results at the University of Development Alternative using their Roll Number. Fast and reliable verification process.">
+  <meta name="keywords" content="University of Development Alternative, Result Verification, Student Verification, UODA, Student Results">
+  
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet" 
+    integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6" crossorigin="anonymous">
+  
+  <!-- Font Awesome -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
+  
+  <!-- SweetAlert2 CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/sweetalert2@10/dist/sweetalert2.min.css" rel="stylesheet">
+  
+  <!-- Custom Styles -->
+  <style>
+    body {
+      background-color: #1c2c60;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    .container {
+      flex: 1;
+      margin-top: 50px;
+    }
+
+    h2 {
+      color: #ffffff;
+      margin-bottom: 30px;
+      font-size: 25px;
+      font-family: Arial, Helvetica, sans-serif;
+      font-weight: bold;
+    }
+
+    .search-container {
+      position: relative;
+      display: inline-block;
+    }
+
+    input[type="text"] {
+      width: 300px;
+      padding: 10px 40px 10px 20px; 
+      border: 2px solid #aadde0;
+      border-radius: 5px;
+      font-size: 13px;
+    }
+
+    input[type="text"]::placeholder {
+      font-weight: 500;
+      color: #1c2c60;
+    }
+
+    .search-icon {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      font-weight: 500;
+      right: 15px;
+      color: #1c2c60;
+    }
+
+    input[type="button"] {
+      padding: 10px 20px;
+      background-color: #d6eef2;
+      border: none;
+      border-radius: 5px;
+      color: #1c2c60;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    input[type="button"]:hover {
+      background-color: #c6c6c6;
+    }
+
+    .logo {
+      margin-bottom: 20px;
+    }
+
+    footer {
+      background-color: #1c2c60; /* Updated to match the body's blue color */
+      color: #ffffff;
+      padding: 20px 0;
+    }
+
+    footer a {
+      color: #ffffff;
+      margin: 0 10px;
+      font-size: 18px;
+      transition: color 0.3s ease;
+    }
+
+    footer a:hover {
+      color: #d6eef2;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      border-spacing: 0;
+    }
+
+    th, td {
+      border: 1px solid #dee2e6;
+      padding: 8px;
+      text-align: left;
+    }
+
+    @media (max-width: 576px) {
+      input[type="text"] {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+    <br><br>
+  <header class="text-center logo">
+    <img src="https://uoda.edu.bd/public/images/logo.png" alt="University Logo" style="width: 180px;">
+  </header>
+
+  <div class="container">
+    <center>
+      <h2>University of Development Alternative<br>(UODA) Result Verification</h2>
+    </center>
+
+    <div class="text-center">
+      <div class="search-container">
+        <input type="text" id="rollNumber" placeholder="ENTER STUDENT ID NUMBER">
+        <span class="search-icon"><i class="fas fa-search"></i></span>
+      </div>
+      <br><br>
+      <input type="button" class="btn btn-info" value="VERIFY" onclick="fetchData()">
+    </div>
+    <div id="result" class="mt-4"></div>
+  </div>
+
+  <footer class="text-center mt-auto mb-3">
+    <div class="container">
+      <p><strong>Contact Us:</strong></p>
+      <p>UODA Administrative Office</p>
+      <p>80, Satmosjid Road, Dhanmondi, Dhaka - 1209</p>
+      <p>
+        Phone: +88 02 9145741, +88 01684 022585, +88 02 9138210<br>
+        Email: registrar@uoda.edu.bd
+      </p>
+      <div class="social-icons mt-3">
+        <a href="https://facebook.com/uoda" target="_blank"><i class="fab fa-facebook-f"></i></a>
+        <a href="https://twitter.com/uoda" target="_blank"><i class="fab fa-twitter"></i></a>
+        <a href="https://instagram.com/uoda" target="_blank"><i class="fab fa-instagram"></i></a>
+        <a href="https://linkedin.com/company/uoda" target="_blank"><i class="fab fa-linkedin-in"></i></a>
+      </div>
+      <p class="mt-3">
+        &copy; 2024 University of Development Alternative. All rights reserved.
+      </p>
+    </div>
+  </footer>
+  
+
+  <!-- Bootstrap JS and dependencies -->
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" 
+    integrity="sha384-IQsoLXlFz3PL9j6hJkO3Ly1uZJlb51u94k6y3kGZ2gPE6hZFh6w1GMYhXV6K+o2U" 
+    crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.min.js" 
+    integrity="sha384-j0yFLzU2GZme8FqT6GFPq7FOZ6Yj8bH+QhXS6GfMVQ6VhbQe6HdjN1f3+jIbsPZJ" 
+    crossorigin="anonymous"></script>
+  
+  <!-- SweetAlert2 JS -->
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+
+  <!-- Custom Script -->
+  <script>
+    const WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbwpQole7Vi1yTnLw47eFkpjpZXrpM8owOblOcMBItatmjFqqzCNW0j_dAQFfK4JD9n9pw/exec'; // Replace with your Web App URL
+
+    async function fetchData() {
+      const rollNumber = document.getElementById('rollNumber').value.trim();
+      const resultDiv = document.getElementById('result');
+
+      // Clear previous results
+      resultDiv.innerHTML = '';
+
+      if (rollNumber === '') {
+        Swal.fire({
+          icon: 'warning',
+          title: 'Warning',
+          text: 'Please enter Roll Number.',
+          timer: 3000,
+          timerProgressBar: true,
+          showConfirmButton: false
+        });
+        return;
+      }
+
+      try {
+        Swal.fire({
+          title: 'Verifying...',
+          text: 'Please wait while we verify the information.',
+          allowOutsideClick: false,
+          didOpen: () => {
+            Swal.showLoading();
+          }
+        });
+
+        const response = await fetch(`${WEB_APP_URL}?action=fetchData&rollNumber=${encodeURIComponent(rollNumber)}`);
+        const data = await response.json();
+
+        Swal.close();
+
+        if (data.status === 'success') {
+          Swal.fire({
+            icon: 'success',
+            title: 'Successfully Verified!',
+            showConfirmButton: false,
+            timer: 2000,
+            timerProgressBar: true
+          });
+          displayStudentData(data.data);
+        } else {
+          Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: data.message,
+            timer: 3000,
+            timerProgressBar: true,
+            showConfirmButton: false
+          });
+        }
+      } catch (error) {
+        console.error('Error fetching data:', error);
+        Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: 'An error occurred while fetching data. Please try again later.',
+          timer: 3000,
+          timerProgressBar: true,
+          showConfirmButton: false
+        });
+      }
+    }
+
+    function displayStudentData(student) {
+      const resultDiv = document.getElementById('result');
+      let htmlData = `
+        <div class='container mt-5'>
+          <div class='card'>
+            <div class='card-header bg-light text-black'>
+              <h4 class='mb-0'>Student's Academic Information</h4>
+            </div> 
+            <div class='card-body bg-info text-black'>
+              <div class='row'>
+                <div class='col-md-3'>
+                  <div class='mb-4'>
+                    <p><strong>Student Name:</strong> ${student.studentName}</p>
+                    <p><strong>Father's Name:</strong> ${student.fatherName}</p>
+                    <p><strong>Mother's Name:</strong> ${student.motherName}</p>
+                  </div> 
+                </div> 
+                <div class='col-md-6'>
+                  <div class='text-center'>
+                    <img src='${student.imageUrl}' alt='Student Image' style='width: 175px; height: 175px;' class='img-fluid rounded-circle'>
+                  </div>
+                </div> 
+              </div> 
+
+              <div class='table-responsive mt-4'>
+                <table class='table table-bordered text-black'>
+                  <tbody>
+                    <tr><td><strong>Program Name</strong></td><td>${student.programName}</td></tr>
+                    <tr><td><strong>Session</strong></td><td>${student.session}</td></tr>
+                    <tr><td><strong>Passing Year</strong></td><td>${student.passingYear}</td></tr>
+                    <tr><td><strong>CGPA</strong></td><td>${student.cgpa}</td></tr>
+                    <tr><td><strong>Total Earned Credit</strong></td><td>${student.totalCredits}</td></tr>
+                    <tr><td><strong>Student Type</strong></td><td>${student.studentType}</td></tr>
+                  </tbody>
+                </table>
+              </div> 
+            </div> 
+          </div> 
+        </div> 
+      `;
+      resultDiv.innerHTML += htmlData;
+    }
+  </script>
+</body>
+</html>
